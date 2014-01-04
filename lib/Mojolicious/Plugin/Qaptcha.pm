@@ -14,16 +14,16 @@ sub register {
       my $self = shift;
       if ($self->session('qaptcha_key') && $self->session('qaptcha_key' ne ''))
       {
-        $myVar = $self->session('qaptcha_key');
+        my $key = $self->session('qaptcha_key');
 
-        if ($self->session($myVar) && $self->session($myVar) ne '') {
+        if ($self->session($key) && $self->session($key) ne '') {
           return 1;
         }
         else {
           return 0;
         }
       }
-      delete $self->session('qaptcha_key');
+      $self->session('qaptcha_key', undef);
     }
   );
 }
@@ -33,7 +33,7 @@ sub _qaptcha_include {
   my $url_base = shift;
 
   require Mojo::DOM;
-  my $dom = Mojo::DOM->new('<script>alert('test')</script>');
+  my $dom = Mojo::DOM->new('<script>alert(' test ')</script>');
 
   require Mojo::ByteStream;
   return Mojo::ByteStream->new($dom->to_xml);
