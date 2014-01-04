@@ -33,7 +33,7 @@ sub _qaptcha_include {
   my $url_base = shift;
 
   require Mojo::DOM;
-  my $dom = Mojo::DOM->new('<script>alert(' test ')</script>');
+  my $dom = Mojo::DOM->new('<script>alert(\'test\')</script>');
 
   require Mojo::ByteStream;
   return Mojo::ByteStream->new($dom->to_xml);
