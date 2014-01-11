@@ -43,12 +43,21 @@ sub _qaptcha_include {
   my $c        = shift;
   my $url_base = shift;
 
-  my $qaptcha_js  = slurp "$Bin/../jquery/QapTcha.jquery.js";
-  my $qaptcha_css = slurp "$Bin/../jquery/QapTcha.jquery.css";
+  #TODO make jquery optional/configurable
+  my $jquery          = slurp "$Bin/../jquery/jquery.js";
+  my $jquery_ui       = slurp "$Bin/../jquery/jquery-ui.js";
+  my $jquery_ui_touch = slurp "$Bin/../jquery/jquery.ui.touch.js";
+  my $qaptcha_js      = slurp "$Bin/../jquery/QapTcha.jquery.js";
+  my $qaptcha_css     = slurp "$Bin/../jquery/QapTcha.jquery.css";
 
   require Mojo::DOM;
   my $script = <<EOS;
-<script type="text/javascript>$qaptcha_js</script>
+<script type="text/javascript>
+$jquery
+$jquery_ui
+$jquery_ui_touch
+$qaptcha_js
+</script>
 <style>$qaptcha_css</style>
 EOS
   my $dom = Mojo::DOM->new($script);
