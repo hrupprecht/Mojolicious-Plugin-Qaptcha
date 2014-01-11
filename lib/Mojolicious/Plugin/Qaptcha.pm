@@ -1,5 +1,7 @@
 package Mojolicious::Plugin::Qaptcha;
 use Mojo::Base 'Mojolicious::Plugin';
+use FindBin qw'$Bin';
+use Mojo::Util 'slurp';
 
 our $VERSION = '0.01';
 
@@ -26,14 +28,30 @@ sub register {
       $self->session('qaptcha_key', undef);
     }
   );
+  $r->route('/images/bg_draggable_qaptcha.jpg')->to(
+    cb => sub {
+      my $self = shift;
+      $self->render(
+        data => slurp("$Bin/../images/bg_draggable_qaptcha.jpg"),
+        format => 'jpg'
+      );
+    }
+  );
 }
 
 sub _qaptcha_include {
   my $c        = shift;
   my $url_base = shift;
 
+  my $qaptcha_js  = slurp "$Bin/../jquery/QapTcha.jquery.js";
+  my $qaptcha_css = slurp "$Bin/../jquery/QapTcha.jquery.css";
+
   require Mojo::DOM;
-  my $dom = Mojo::DOM->new('<script>alert(\'test\')</script>');
+  my $script = <<EOS;
+$qaptcha_js
+$qaptcha_css
+EOS
+  my $dom = Mojo::DOM->new("<script>$script</script>");
 
   require Mojo::ByteStream;
   return Mojo::ByteStream->new($dom->to_xml);

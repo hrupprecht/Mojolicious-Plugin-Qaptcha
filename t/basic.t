@@ -23,8 +23,12 @@ $t->get_ok('/inline')->status_is(200)
 
 $t->get_ok('/default')->status_is(200)
   ->content_like(qr'Hello Qaptcha!')
-  ->content_like(qr'script');
+  ->content_like(qr'script')
+  ->content_like(qr'QapTcha - jQuery Plugin')
+  ->content_like(qr'QapTcha CSS');
 
+$t->get_ok('/images/bg_draggable_qaptcha.jpg')->status_is(200)
+  ->content_type_is('image/jpeg');
 
 done_testing();
 
