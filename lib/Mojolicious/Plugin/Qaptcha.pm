@@ -48,10 +48,10 @@ sub _qaptcha_include {
 
   require Mojo::DOM;
   my $script = <<EOS;
-$qaptcha_js
-$qaptcha_css
+<script type="text/javascript>$qaptcha_js</script>
+<style>$qaptcha_css</style>
 EOS
-  my $dom = Mojo::DOM->new("<script>$script</script>");
+  my $dom = Mojo::DOM->new($script);
 
   require Mojo::ByteStream;
   return Mojo::ByteStream->new($dom->to_xml);
