@@ -2,6 +2,7 @@ package Mojolicious::Plugin::Qaptcha;
 use Mojo::Base 'Mojolicious::Plugin';
 use FindBin qw'$Bin';
 use Mojo::Util 'slurp';
+use File::Basename 'dirname';
 
 our $VERSION = '0.01';
 
@@ -32,7 +33,9 @@ sub register {
     cb => sub {
       my $self = shift;
       $self->render(
-        data => slurp("$Bin/../images/bg_draggable_qaptcha.jpg"),
+        data => slurp(
+          &_basedir . "/images/bg_draggable_qaptcha.jpg"
+        ),
         format => 'jpg'
       );
     }
@@ -44,11 +47,11 @@ sub _qaptcha_include {
   my $url_base = shift;
 
   #TODO make jquery optional/configurable
-  my $jquery          = slurp "$Bin/../jquery/jquery.js";
-  my $jquery_ui       = slurp "$Bin/../jquery/jquery-ui.js";
-  my $jquery_ui_touch = slurp "$Bin/../jquery/jquery.ui.touch.js";
-  my $qaptcha_js      = slurp "$Bin/../jquery/QapTcha.jquery.js";
-  my $qaptcha_css     = slurp "$Bin/../jquery/QapTcha.jquery.css";
+  my $jquery          = slurp( &_basedir . "/jquery/jquery.js");
+  my $jquery_ui       = slurp( &_basedir . "/jquery/jquery-ui.js");
+  my $jquery_ui_touch = slurp( &_basedir . "/jquery/jquery.ui.touch.js");
+  my $qaptcha_js      = slurp( &_basedir . "/jquery/QapTcha.jquery.js");
+  my $qaptcha_css     = slurp( &_basedir . "/jquery/QapTcha.jquery.css");
 
   require Mojo::DOM;
   my $script = <<EOS;
@@ -66,6 +69,9 @@ EOS
   return Mojo::ByteStream->new($dom->to_xml);
 }
 
+sub _basedir {
+  return dirname(__FILE__) . "/../../.."
+}
 1;
 __END__
 

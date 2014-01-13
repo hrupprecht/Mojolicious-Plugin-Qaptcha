@@ -10,9 +10,9 @@ get '/inline' => sub {
   my $self = shift;
   $self->render(inline => 'Hello Qaptcha! <%= qaptcha_include %>');
 };
-get '/default' => sub {
+get '/index' => sub {
   my $self = shift;
-  $self->render('default');
+  $self->render();
 };
 
 
@@ -21,7 +21,7 @@ $t->get_ok('/inline')->status_is(200)
   ->content_like(qr'Hello Qaptcha!')
   ->content_like(qr'script');
 
-$t->get_ok('/default')->status_is(200)
+$t->get_ok('/index')->status_is(200)
   ->content_like(qr'Hello Qaptcha!')
   ->content_like(qr'script')
   ->content_like(qr'QapTcha - jQuery Plugin')
@@ -32,20 +32,20 @@ $t->get_ok('/images/bg_draggable_qaptcha.jpg')->status_is(200)
 
 done_testing();
 
-__END__
 __DATA__
 
 @@ layouts/default.html.ep
 <!DOCTYPE html>
 <html>
 <head>
-%= qaptcha_include
+%= qaptcha_include;
 </head>
 <body>
-%= content
+%= content;
 </body>
 </html>
 
-@@ default.html.ep
-%= layout 'default'
+@@ index.html.ep
+%= layout 'default';
 'Hello Qaptcha!'
+
