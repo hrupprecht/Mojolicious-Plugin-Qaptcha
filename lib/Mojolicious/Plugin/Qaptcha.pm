@@ -55,11 +55,14 @@ sub _qaptcha_include {
 
   require Mojo::DOM;
   my $script = <<EOS;
-<script type="text/javascript>
+<script type="text/javascript">
 $jquery
 $jquery_ui
 $jquery_ui_touch
 $qaptcha_js
+\$(document).ready(function(){
+  \$('.QapTcha').QapTcha({disabledSubmit:false,autoRevert:true,autoSubmit:false});
+});
 </script>
 <style>$qaptcha_css</style>
 EOS

@@ -10,7 +10,7 @@ get '/inline' => sub {
   my $self = shift;
   $self->render(inline => 'Hello Qaptcha! <%= qaptcha_include %>');
 };
-get '/index' => sub {
+any '/index' => sub {
   my $self = shift;
   $self->render();
 };
@@ -32,4 +32,14 @@ __DATA__
 
 @@ index.html.ep
 %= layout 'default';
-<h1>Hello Qaptcha!</h1>
+'Hello Qaptcha!'
+<div class="phpresponse">No SESSION.. Form can not be submitted...</div>
+<form method="post" action="">
+  <fieldset>
+    <label>First Name</label> <input name="firstname" type="text"><br>
+    <label>Last Name</label> <input name="lastname" type="text">
+    <div class="QapTcha"></div>
+    <input name="submit" value="Submit form" style="margin-top:15px;" type="submit">
+  </fieldset>
+</form>
+
