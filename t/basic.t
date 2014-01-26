@@ -1,27 +1,14 @@
-use Mojo::Base -strict;
-
 use Test::More;
-use Mojolicious::Lite;
 use Test::Mojo;
 
-plugin 'Qaptcha';
-
-get '/inline' => sub {
-  my $self = shift;
-  $self->render(inline => 'Hello Qaptcha! <%= qaptcha_include %>');
-};
-any '/index' => sub {
-  my $self = shift;
-  $self->render();
-};
-
+do "ex/qaptcha.pl";
 
 my $t = Test::Mojo->new;
 $t->get_ok('/inline')->status_is(200)
   ->content_like(qr'Hello Qaptcha!')
   ->content_like(qr'script');
 
-$t->get_ok('/index')->status_is(200)
+$t->get_ok('/')->status_is(200)
   ->content_like(qr'Hello Qaptcha!')
   ->content_like(qr'script')
   ->content_like(qr'QapTcha - jQuery Plugin')
@@ -30,10 +17,24 @@ $t->get_ok('/index')->status_is(200)
 $t->get_ok('/images/bg_draggable_qaptcha.jpg')->status_is(200)
   ->content_type_is('image/jpeg');
 
-$t->post_ok('/index' => {DNT => 1} => form => {firstname => 'hans', lastname => 'test'})
+$t->post_ok('/' => {DNT => 1} => form => {firstname => 'hans', lastname => 'test'})
   ->status_is(200)
-  ->text_is('div.
-  ->content_like(qr'not');
+  ->text_is('div#q_session' => '')
+  ->text_is('div#f_processed' => 'form data not processed');
+
+$t->post_ok('/qaptcha' => {DNT => 1} => form => {action => 'qaptcha', qaptcha_key => 'ABC'})
+  ->status_is(200)
+  ->json_is({error => 0});
+
+$t->post_ok('/' => {DNT => 1} => form => {firstname => 'hans', lastname => 'test'})
+  ->status_is(200)
+  ->text_is('div#q_session' => 'ABC')
+  ->text_is('div#f_processed' => 'form data processed');
+
+$t->post_ok('/' => {DNT => 1} => form => {firstname => 'hans', lastname => 'test'})
+  ->status_is(200)
+  ->text_is('div#q_session' => '')
+  ->text_is('div#f_processed' => 'form data not processed');
 
 done_testing();
 
@@ -53,7 +54,12 @@ __DATA__
 @@ index.html.ep
 %= layout 'default';
 'Hello Qaptcha!'
-<div class="phpresponse">No SESSION.. Form can not be submitted...</div>
+<div id="q_session">
+%= c.session('qaptcha_key');
+</div>
+<div id="f_processed">
+%= $form_processing;
+</div>
 <form method="post" action="">
   <fieldset>
     <label>First Name</label> <input name="firstname" type="text"><br>

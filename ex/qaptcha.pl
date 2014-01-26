@@ -37,14 +37,12 @@ __DATA__
 @@ index.html.ep
 %= layout 'default';
 'Hello Qaptcha!'
-<span>
 <div id="q_session">
 %= c.session('qaptcha_key');
 </div>
 <div id="f_processed">
 %= $form_processing;
 </div>
-</span>
 <form method="post" action="">
   <fieldset>
     <label>First Name</label> <input name="firstname" type="text"><br>
