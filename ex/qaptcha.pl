@@ -10,9 +10,13 @@ get '/inline' => sub {
   my $self = shift;
   $self->render(inline => 'Hello Qaptcha! <%= qaptcha_include %>');
 };
-any '/index' => sub {
+any '/' => sub {
   my $self = shift;
-  $self->render();
+  $self->stash(
+    form_processing => sprintf("form data %s processed",
+      $self->session('qaptcha_key') ? '' : 'not')
+  );
+  $self->render('index');
 };
 
 app->start();
@@ -33,13 +37,21 @@ __DATA__
 @@ index.html.ep
 %= layout 'default';
 'Hello Qaptcha!'
-<div class="phpresponse">No SESSION.. Form can not be submitted...</div>
+<span>
+<div>
+%= c.session('qaptcha_key');
+</div>
+<div>
+%= $form_processing;
+</div>
+</span>
 <form method="post" action="">
   <fieldset>
     <label>First Name</label> <input name="firstname" type="text"><br>
     <label>Last Name</label> <input name="lastname" type="text">
-    <div class="QapTcha"></div>
     <input name="submit" value="Submit form" style="margin-top:15px;" type="submit">
+    <br />
+    <div class="QapTcha"></div>
   </fieldset>
 </form>
 

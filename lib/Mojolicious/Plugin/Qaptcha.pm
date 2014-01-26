@@ -15,18 +15,24 @@ sub register {
   $r->route('/qaptcha')->to(
     cb => sub {
       my $self = shift;
-      if ($self->session('qaptcha_key') && $self->session('qaptcha_key' ne ''))
-      {
-        my $key = $self->session('qaptcha_key');
+      my $aResponse = {};
+      $aResponse->{error} = 0;
 
-        if ($self->session($key) && $self->session($key) ne '') {
-          return 1;
+      if ($self->param('action') && $self->param('qaptcha_key'))
+      {
+        $self->session('qaptcha_key', undef);
+        if($self->param('action') eq 'qaptcha'){
+          $self->session('qaptcha_key', $self->param('qaptcha_key'));
         }
         else {
-          return 0;
+          $aResponse->{error} = 1;
         }
+        return $self->render(json => $aResponse);
       }
-      $self->session('qaptcha_key', undef);
+      else {
+        $aResponse->{error} = 1;
+        return $self->render(json => $aResponse);
+      }
     }
   );
   $r->route('/images/bg_draggable_qaptcha.jpg')->to(
@@ -40,13 +46,18 @@ sub register {
       );
     }
   );
+  $app->hook(after_dispatch => sub {
+    my $c = shift;
+    $c->session('qaptcha_key', undef)
+      if $c->req->url->path->to_string ne '/qaptcha';
+  });
 }
 
 sub _qaptcha_include {
   my $c        = shift;
   my $url_base = shift;
 
-  #TODO make jquery optional/configurable
+  #TODO make jquery and qaptcha options configurable
   my $jquery          = slurp( &_basedir . "/jquery/jquery.js");
   my $jquery_ui       = slurp( &_basedir . "/jquery/jquery-ui.js");
   my $jquery_ui_touch = slurp( &_basedir . "/jquery/jquery.ui.touch.js");
@@ -61,7 +72,14 @@ $jquery_ui
 $jquery_ui_touch
 $qaptcha_js
 \$(document).ready(function(){
-  \$('.QapTcha').QapTcha({disabledSubmit:false,autoRevert:true,autoSubmit:false});
+  \$('.QapTcha').QapTcha({
+    txtLock : "Locked : form can't be submited",
+    txtUnlock : 'Unlocked : form can be submited',
+    disabledSubmit : false,
+    PHPfile : '/qaptcha',
+    autoRevert:true,
+    autoSubmit:false
+  });
 });
 </script>
 <style>$qaptcha_css</style>
