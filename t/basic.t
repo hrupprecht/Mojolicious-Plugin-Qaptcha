@@ -10,7 +10,7 @@ get '/inline' => sub {
   my $self = shift;
   $self->render(inline => 'Hello Qaptcha! <%= qaptcha_include %>');
 };
-get '/index' => sub {
+any '/index' => sub {
   my $self = shift;
   $self->render();
 };
@@ -29,6 +29,11 @@ $t->get_ok('/index')->status_is(200)
 
 $t->get_ok('/images/bg_draggable_qaptcha.jpg')->status_is(200)
   ->content_type_is('image/jpeg');
+
+$t->post_ok('/index' => {DNT => 1} => form => {firstname => 'hans', lastname => 'test'})
+  ->status_is(200)
+  ->text_is('div.
+  ->content_like(qr'not');
 
 done_testing();
 
