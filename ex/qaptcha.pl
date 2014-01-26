@@ -38,10 +38,10 @@ __DATA__
 %= layout 'default';
 'Hello Qaptcha!'
 <span>
-<div>
+<div id="q_session">
 %= c.session('qaptcha_key');
 </div>
-<div>
+<div id="f_processed">
 %= $form_processing;
 </div>
 </span>
