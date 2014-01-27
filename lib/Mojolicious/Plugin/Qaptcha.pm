@@ -115,15 +115,9 @@ sub _basedir {
   return dirname(__FILE__) . "/../../.."
 }
 
-1;
-
-=pod
-
-=encoding utf8
-
 =head1 NAME
 
-Mojolicious-Plugin-Qaptcha - jQuery QapTcha Plugin for Mojolicious
+Mojolicious::Plugin::Qaptcha - jQuery QapTcha Plugin for Mojolicious
 
 =head1 SYNOPSIS
 
@@ -290,3 +284,4 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
+1;
