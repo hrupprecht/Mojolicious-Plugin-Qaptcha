@@ -68,7 +68,9 @@ and in your controller
 
 =head1 DESCRIPTION
 
-Adds jQuery QapTcha functionality to your forms
+Adds jQuery QapTcha functionality to your forms.
+When QapTcha is unlocked, next request has to 
+submit form. Otherwise QapTcha is locked back.
 
 =head2 OPTIONS
 
