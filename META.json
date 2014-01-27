@@ -33,7 +33,7 @@
    "provides" : {
       "Mojolicious::Plugin::Qaptcha" : {
          "file" : "lib/Mojolicious/Plugin/Qaptcha.pm",
-         "version" : "0.02"
+         "version" : "0.05"
       }
    },
    "release_status" : "stable",
@@ -42,5 +42,5 @@
          "http://www.perlfoundation.org/artistic_license_2_0"
       ]
    },
-   "version" : "0.02"
+   "version" : "0.04"
 }
