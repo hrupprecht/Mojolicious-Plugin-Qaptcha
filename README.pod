@@ -151,6 +151,7 @@ Slider returns to the init-position, when the user hasn't dragged it to end
 default: true
 
 =item autoSubmit
+
 If true, auto-submit form when the user has dragged it to the end
 default: false
 
