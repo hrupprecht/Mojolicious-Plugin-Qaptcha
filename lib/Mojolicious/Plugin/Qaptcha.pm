@@ -10,8 +10,8 @@ sub register {
   my ($self, $app, $config) = @_;
   $app->config->{$_} = $config->{$_} for keys %$config;
 
-  $app->helper(qaptcha_include => \&_qaptcha_include);
-  $app->helper(is_unlocked     => \&_is_unlocked);
+  $app->helper(qaptcha_include      => \&_qaptcha_include);
+  $app->helper(qaptcha_is_unlocked  => \&_is_unlocked);
 
   my $r = $app->routes;
   $r->route('/qaptcha')->to(

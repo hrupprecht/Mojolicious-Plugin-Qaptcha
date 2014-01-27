@@ -1,0 +1,109 @@
+
+=head1 NAME
+
+Mojolicious-Plugin-Qaptcha - jQuery QapTcha Plugin for Mojolicious
+
+=head1 SYNOPSIS
+
+  # Mojolicious
+  $app->plugin('Qaptcha', {
+    inbuild_jquery          => 1,
+    inbuild_jquery_ui       => 1,
+    inbuild_jquery_ui_touch => 1,
+  });
+
+  # Mojolicious::Lite
+  plugin 'Qaptcha', {
+    inbuild_jquery          => 1,
+    inbuild_jquery_ui       => 1,
+    inbuild_jquery_ui_touch => 1,
+  };
+
+and in your templates
+
+  @@ layouts/default.html.ep
+  <!DOCTYPE html>
+  <html>
+  <head>
+  %= qaptcha_include
+  </head>
+  <body>
+  %= content;
+  </body>
+  </html>
+
+  @@ index.html.ep
+  %= layout 'default';
+  <form method="post">
+    <fieldset>
+      <label>First Name</label> <input name="firstname" type="text"><br>
+      <label>Last Name</label> <input name="lastname" type="text">
+      <input name="submit" value="Submit form" style="margin-top:15px;" type="submit">
+      <br />
+      <!-- put a qaptcha element inside a form -->
+      <div class="QapTcha"></div>
+
+    </fieldset>
+  </form>
+
+and in your controller
+
+  any '/' => sub {
+    my $self = shift;
+    
+    do_something if $self->qaptcha_is_unlocked;
+
+    $self->render('index');
+  };
+  
+=head1 DESCRIPTION
+
+Adds jQuery QapTcha functionality to your forms
+
+
+
+=head1 INSTALLATION
+
+To install this module, run the following commands:
+
+	perl Build.PL
+	./Build
+	./Build test
+	./Build install
+
+SUPPORT AND DOCUMENTATION
+
+After installing, you can find documentation for this module with the
+perldoc command.
+
+    perldoc Mojolicious::Plugin::Qaptcha
+
+You can also look for information at:
+
+    AnnoCPAN, Annotated CPAN documentation
+        http://annocpan.org/dist/Mojolicious-Plugin-Qaptcha
+
+    CPAN Ratings
+        http://cpanratings.perl.org/d/Mojolicious-Plugin-Qaptcha
+
+    Search CPAN
+        http://search.cpan.org/dist/Mojolicious-Plugin-Qaptcha/
+
+=head1 SOURCE REPOSITORY
+
+L<http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha>
+
+=head1 AUTHOR
+
+Holger Rupprecht - C<Holger.Rupprecht@gmx.de>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2013 by Holger Rupprecht
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+=pod

@@ -18,7 +18,7 @@ any '/' => sub {
   my $self = shift;
   $self->stash(
     form_processing => sprintf("form data %s processed",
-      $self->is_unlocked ? '' : 'not')
+      $self->qaptcha_is_unlocked ? '' : 'not')
   );
   $self->render('index');
 };
