@@ -5,7 +5,7 @@ use FindBin qw'$Bin';
 use Mojo::Util 'slurp';
 use File::Basename 'dirname';
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub register {
   my ($self, $app, $config) = @_;

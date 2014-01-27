@@ -17,6 +17,7 @@ META.yml
 README.pod
 t/00-load.t
 t/basic.t
+t/configurable.t
 t/manifest.t
 t/no_jquery.t
 t/pod-coverage.t
