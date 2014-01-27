@@ -48,6 +48,7 @@ and in your templates
 
 and in your controller
 
+  # Mojolicious::Lite
   any '/' => sub {
     my $self = shift;
     
@@ -56,11 +57,12 @@ and in your controller
     $self->render('index');
   };
   
+  # Mojolicious
 =head1 DESCRIPTION
 
 Adds jQuery QapTcha functionality to your forms
 
-
+an example you find in L<ex/qaptcha.pl>
 
 =head1 INSTALLATION
 
