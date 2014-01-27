@@ -54,7 +54,7 @@ sub register {
   $app->hook(after_dispatch => sub {
     my $c = shift;
     $c->session('qaptcha_key', undef)
-      if $c->req->url->path->to_string ne '/qaptcha';
+      if $c->req->url->path->to_string ne $app->config->{qaptcha_url};
   });
 }
 
