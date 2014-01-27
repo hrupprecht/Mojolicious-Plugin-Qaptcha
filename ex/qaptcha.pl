@@ -4,7 +4,11 @@ use Mojo::Base -strict;
 use Mojolicious::Lite;
 use lib 'lib';
 
-plugin 'Qaptcha';
+plugin 'Qaptcha', {
+  inbuild_jquery          => 1,
+  inbuild_jquery_ui       => 1,
+  inbuild_jquery_ui_touch => 1,
+};
 
 get '/inline' => sub {
   my $self = shift;
@@ -14,7 +18,7 @@ any '/' => sub {
   my $self = shift;
   $self->stash(
     form_processing => sprintf("form data %s processed",
-      $self->session('qaptcha_key') ? '' : 'not')
+      $self->is_unlocked ? '' : 'not')
   );
   $self->render('index');
 };

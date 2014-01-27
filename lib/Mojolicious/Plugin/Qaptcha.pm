@@ -7,9 +7,11 @@ use File::Basename 'dirname';
 our $VERSION = '0.01';
 
 sub register {
-  my ($self, $app) = @_;
+  my ($self, $app, $config) = @_;
+  $app->config->{$_} = $config->{$_} for keys %$config;
 
   $app->helper(qaptcha_include => \&_qaptcha_include);
+  $app->helper(is_unlocked     => \&_is_unlocked);
 
   my $r = $app->routes;
   $r->route('/qaptcha')->to(
@@ -57,11 +59,19 @@ sub _qaptcha_include {
   my $c        = shift;
   my $url_base = shift;
 
-  #TODO make jquery and qaptcha options configurable
-  my $jquery          = slurp( &_basedir . "/jquery/jquery.js");
-  my $jquery_ui       = slurp( &_basedir . "/jquery/jquery-ui.js");
-  my $jquery_ui_touch = slurp( &_basedir . "/jquery/jquery.ui.touch.js");
-  my $qaptcha_js      = slurp( &_basedir . "/jquery/QapTcha.jquery.js");
+  my $jquery
+    = $c->app->config->{inbuild_jquery} == 1
+    ? slurp(&_basedir . "/jquery/jquery.js")
+    : '';
+  my $jquery_ui
+    = $c->app->config->{inbuild_jquery_ui} == 1
+    ? slurp(&_basedir . "/jquery/jquery-ui.js")
+    : '';
+  my $jquery_ui_touch
+    = $c->app->config->{inbuild_jquery_ui_touch} == 1
+    ? slurp(&_basedir . "/jquery/jquery.ui.touch.js")
+    : '';
+  my $qaptcha_js = slurp(&_basedir . "/jquery/QapTcha.jquery.js");
   my $qaptcha_css     = slurp( &_basedir . "/jquery/QapTcha.jquery.css");
 
   require Mojo::DOM;
@@ -88,6 +98,16 @@ EOS
 
   require Mojo::ByteStream;
   return Mojo::ByteStream->new($dom->to_xml);
+}
+
+sub _is_unlocked {
+  my $self = shift;
+  if($self->session('qaptcha_key')){
+    if($self->req->param($self->session('qaptcha_key')) eq ''){
+      return 1;
+    }
+  }
+  return 0;
 }
 
 sub _basedir {
