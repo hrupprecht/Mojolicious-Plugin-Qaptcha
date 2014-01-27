@@ -5,7 +5,7 @@ use FindBin qw'$Bin';
 use Mojo::Util 'slurp';
 use File::Basename 'dirname';
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 sub register {
   my ($self, $app, $config) = @_;
@@ -65,15 +65,15 @@ sub _qaptcha_include {
   my $cfg = $c->app->config;
 
   my $jquery
-    = $cfg->{inbuild_jquery} == 1
+    = $cfg->{inbuild_jquery} && $cfg->{inbuild_jquery}  == 1
     ? slurp(&_basedir . "/jquery/jquery.js")
     : '';
   my $jquery_ui
-    = $cfg->{inbuild_jquery_ui} == 1
+    = $cfg->{inbuild_jquery_ui} && $cfg->{inbuild_jquery_ui} == 1
     ? slurp(&_basedir . "/jquery/jquery-ui.js")
     : '';
   my $jquery_ui_touch
-    = $cfg->{inbuild_jquery_ui_touch} == 1
+    = $cfg->{inbuild_jquery_ui_touch} && $cfg->{inbuild_jquery_ui_touch} == 1
     ? slurp(&_basedir . "/jquery/jquery.ui.touch.js")
     : '';
   my $qaptcha_js = slurp(&_basedir . "/jquery/QapTcha.jquery.js");

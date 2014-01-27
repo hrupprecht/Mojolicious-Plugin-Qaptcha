@@ -20,6 +20,10 @@ plugin 'Qaptcha', {
 
 any '/' => sub {
   my $self = shift;
+  $self->stash(
+    form_processing => sprintf("form data %s processed",
+      $self->qaptcha_is_unlocked ? '' : 'not')
+  );
   $self->render('index');
 };
 
@@ -38,6 +42,17 @@ $t->post_ok('/entsperren' => {DNT => 1} => form => {action => 'qaptcha', qaptcha
   ->status_is(200)
   ->json_is({error => 0});
 
+  $t->post_ok('/' => {DNT => 1} => form => {firstname => 'hans', lastname => 'test'})
+  ->status_is(200)
+  ->text_is('div#q_session' => 'ABC')
+  ->text_is('div#f_processed' => 'form data processed');
+
+$t->post_ok('/' => {DNT => 1} => form => {firstname => 'hans', lastname => 'test'})
+  ->status_is(200)
+  ->text_is('div#q_session' => '')
+  ->text_is('div#f_processed' => 'form data not processed');
+
+
 done_testing();
 
 __DATA__
@@ -55,6 +70,12 @@ __DATA__
 
 @@ index.html.ep
 %= layout 'default';
+<div id="q_session">
+%= c.session('qaptcha_key');
+</div>
+<div id="f_processed">
+%= $form_processing;
+</div>
 <form method="post" action="">
   <fieldset>
     <label>First Name</label> <input name="firstname" type="text"><br>
