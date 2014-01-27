@@ -70,9 +70,22 @@ and in your controller
 
 Adds jQuery QapTcha functionality to your forms
 
-When inbuild_jquery option is set, jQuery is inbound
+=head2 OPTIONS
 
-an example you find in L<ex/qaptcha.pl>
+=over 4
+
+=item inbuild_jquery
+If set to 1 jQuery 1.8.2 is rendered into %= qaptcha_include
+
+=item inbuild_jquery_ui
+If set to 1 jQuery UI - v1.8.2 is rendered into %= qaptcha_include
+
+=item inbuild_jquery_ui_touch
+If set to 1 jQuery.UI.iPad plugin is rendered into %= qaptcha_include
+
+=back
+
+an example you find in L<https://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/blob/master/ex/qaptcha.pl|ex/qaptcha.pl>
 
 =head1 INSTALLATION
 
