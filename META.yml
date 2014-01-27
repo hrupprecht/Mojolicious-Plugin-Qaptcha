@@ -16,9 +16,9 @@ name: Mojolicious-Plugin-Qaptcha
 provides:
   Mojolicious::Plugin::Qaptcha:
     file: lib/Mojolicious/Plugin/Qaptcha.pm
-    version: 0.01
+    version: 0.02
 requires:
   Mojolicious: 4
 resources:
   license: http://www.perlfoundation.org/artistic_license_2_0
-version: 0.01
+version: 0.02
