@@ -5,7 +5,7 @@ use FindBin qw'$Bin';
 use Mojo::Util 'slurp';
 use File::Basename 'dirname';
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 sub register {
   my ($self, $app, $config) = @_;
@@ -136,6 +136,12 @@ Mojolicious::Plugin::Qaptcha - jQuery QapTcha Plugin for Mojolicious
     inbuild_jquery          => 1,
     inbuild_jquery_ui       => 1,
     inbuild_jquery_ui_touch => 1,
+    txtLock                 => "LOCKED",
+    txtUnlock               => "UNLOCKED",
+    disabledSubmit          => "true",
+    autoRevert              => "false",
+    autoSubmit              => "true",
+    qaptcha_url             => '/do_unlock',
   });
 
   # Mojolicious::Lite
@@ -143,6 +149,12 @@ Mojolicious::Plugin::Qaptcha - jQuery QapTcha Plugin for Mojolicious
     inbuild_jquery          => 1,
     inbuild_jquery_ui       => 1,
     inbuild_jquery_ui_touch => 1,
+    txtLock                 => "LOCKED",
+    txtUnlock               => "UNLOCKED",
+    disabledSubmit          => "true",
+    autoRevert              => "false",
+    autoSubmit              => "true",
+    qaptcha_url             => '/do_unlock',
   };
 
 and in your templates
@@ -252,6 +264,7 @@ Text to display for locked QapTcha
 Text to display for unlocked QapTcha
 
 =item disabledSubmit
+
 Add the "disabled" attribut to the submit button
 default: false
 
@@ -261,8 +274,13 @@ Slider returns to the init-position, when the user hasn't dragged it to end
 default: true
 
 =item autoSubmit
+
 If true, auto-submit form when the user has dragged it to the end
 default: false
+
+=item qaptcha_url
+
+Configurable route to unlock qaptcha
 
 =back
 
