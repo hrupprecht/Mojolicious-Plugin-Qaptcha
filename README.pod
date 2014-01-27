@@ -1,3 +1,6 @@
+=pod
+
+=encoding utf8
 
 =head1 NAME
 
@@ -51,16 +54,16 @@ and in your controller
   # Mojolicious::Lite
   any '/' => sub {
     my $self = shift;
-    
+
     do_something if $self->qaptcha_is_unlocked;
 
     $self->render('index');
   };
-  
+
   # Mojolicious
   sub index {
     my $self = shift;
-    
+
     do_something if $self->qaptcha_is_unlocked;
 
     $self->render('index');
@@ -68,9 +71,38 @@ and in your controller
 
 =head1 DESCRIPTION
 
-Adds jQuery QapTcha functionality to your forms.
-When QapTcha is unlocked, next request has to 
-submit form. Otherwise QapTcha is locked back.
+L<Mojolicious::Plugin::Qaptcha> is a L<Mojolicious> plugin.
+
+It brings jQuery QapTcha functionality inside your html form
+in an element with class 'QapTcha'.
+When QapTcha is unlocked, next request has to
+submit form. Otherwise QapTcha will be locked back.
+
+=head1 METHODS
+
+L<Mojolicious::Plugin::Qaptcha> inherits all methods from
+L<Mojolicious::Plugin> and implements the following new ones.
+
+=head2 register
+
+  $plugin->register(Mojolicious->new, $options_hash);
+
+Register plugin in L<Mojolicious> application.
+
+
+=head2 HELPERS
+
+=over 4
+
+=item qaptcha_include
+
+Includes (optional configured) jquery and qaptcha javascript.
+
+=item qaptcha_is_unlocked
+
+Returns 1 if QapTcha is unlocked.
+
+=back
 
 =head2 OPTIONS
 
@@ -78,19 +110,19 @@ submit form. Otherwise QapTcha is locked back.
 
 =item inbuild_jquery
 
-If set to 1 jQuery 1.8.2 is rendered into %= qaptcha_include
+If set to 1 jQuery 1.8.2 is rendered into %= qaptcha_include.
 
 =item inbuild_jquery_ui
 
-If set to 1 jQuery UI - v1.8.2 is rendered into %= qaptcha_include
+If set to 1 jQuery UI - v1.8.2 is rendered into %= qaptcha_include.
 
 =item inbuild_jquery_ui_touch
 
-If set to 1 jQuery.UI.iPad plugin is rendered into %= qaptcha_include
+If set to 1 jQuery.UI.iPad plugin is rendered into %= qaptcha_include.
 
 =back
 
-an example you find in L<ex/qaptcha.pl|https://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/blob/master/ex/qaptcha.pl>
+an example you find in L<ex/qaptcha.pl|https://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/blob/master/ex/qaptcha.pl>.
 
 =head1 INSTALLATION
 
@@ -127,6 +159,10 @@ L<http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha>
 
 Holger Rupprecht - C<Holger.Rupprecht@gmx.de>
 
+=head1 SEE ALSO
+
+L<Mojolicious>, L<Mojolicious::Guides>, L<http://mojolicio.us>.
+
 =head1 COPYRIGHT AND LICENSE
 
 Copyright (C) 2013 by Holger Rupprecht
@@ -135,5 +171,3 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
-
-=pod
