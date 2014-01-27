@@ -5,17 +5,19 @@ use FindBin qw'$Bin';
 use Mojo::Util 'slurp';
 use File::Basename 'dirname';
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub register {
   my ($self, $app, $config) = @_;
   $app->config->{$_} = $config->{$_} for keys %$config;
 
+  $app->config->{qaptcha_url}       ||= q|/qaptcha|;
+
   $app->helper(qaptcha_include      => \&_qaptcha_include);
   $app->helper(qaptcha_is_unlocked  => \&_is_unlocked);
 
   my $r = $app->routes;
-  $r->route('/qaptcha')->to(
+  $r->route($app->config->{qaptcha_url})->to(
     cb => sub {
       my $self = shift;
       my $aResponse = {};
@@ -60,20 +62,28 @@ sub _qaptcha_include {
   my $c        = shift;
   my $url_base = shift;
 
+  my $cfg = $c->app->config;
+
   my $jquery
-    = $c->app->config->{inbuild_jquery} == 1
+    = $cfg->{inbuild_jquery} == 1
     ? slurp(&_basedir . "/jquery/jquery.js")
     : '';
   my $jquery_ui
-    = $c->app->config->{inbuild_jquery_ui} == 1
+    = $cfg->{inbuild_jquery_ui} == 1
     ? slurp(&_basedir . "/jquery/jquery-ui.js")
     : '';
   my $jquery_ui_touch
-    = $c->app->config->{inbuild_jquery_ui_touch} == 1
+    = $cfg->{inbuild_jquery_ui_touch} == 1
     ? slurp(&_basedir . "/jquery/jquery.ui.touch.js")
     : '';
   my $qaptcha_js = slurp(&_basedir . "/jquery/QapTcha.jquery.js");
   my $qaptcha_css     = slurp( &_basedir . "/jquery/QapTcha.jquery.css");
+
+  $cfg->{txtLock}         ||= q|Locked : form can't be submited|;
+  $cfg->{txtUnlock}       ||= q|Unlocked : form can be submited|;
+  $cfg->{disabledSubmit}  ||= q|false|;
+  $cfg->{autoRevert}      ||= q|true|;
+  $cfg->{autoSubmit}      ||= q|false|;
 
   require Mojo::DOM;
   my $script = <<EOS;
@@ -84,12 +94,12 @@ $jquery_ui_touch
 $qaptcha_js
 \$(document).ready(function(){
   \$('.QapTcha').QapTcha({
-    txtLock : "Locked : form can't be submited",
-    txtUnlock : 'Unlocked : form can be submited',
-    disabledSubmit : false,
-    PHPfile : '/qaptcha',
-    autoRevert:true,
-    autoSubmit:false
+    txtLock : "$cfg->{txtLock}",
+    txtUnlock : "$cfg->{txtUnlock}",
+    disabledSubmit : $cfg->{disabledSubmit},
+    PHPfile : '$cfg->{qaptcha_url}',
+    autoRevert : $cfg->{autoRevert},
+    autoSubmit : $cfg->{autoSubmit}
   });
 });
 </script>
@@ -233,9 +243,30 @@ If set to 1 jQuery UI - v1.8.2 is rendered into %= qaptcha_include.
 
 If set to 1 jQuery.UI.iPad plugin is rendered into %= qaptcha_include.
 
+=item txtLock
+
+Text to display for locked QapTcha
+
+=item txtUnlock
+
+Text to display for unlocked QapTcha
+
+=item disabledSubmit
+Add the "disabled" attribut to the submit button
+default: false
+
+=item autoRevert
+
+Slider returns to the init-position, when the user hasn't dragged it to end
+default: true
+
+=item autoSubmit
+If true, auto-submit form when the user has dragged it to the end
+default: false
+
 =back
 
-an example you find in L<ex/qaptcha.pl|https://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/blob/master/ex/qaptcha.pl>.
+an example is located in L<ex/qaptcha.pl|https://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/blob/master/ex/qaptcha.pl>.
 
 =head1 INSTALLATION
 
