@@ -58,9 +58,19 @@ and in your controller
   };
   
   # Mojolicious
+  sub index {
+    my $self = shift;
+    
+    do_something if $self->qaptcha_is_unlocked;
+
+    $self->render('index');
+  }
+
 =head1 DESCRIPTION
 
 Adds jQuery QapTcha functionality to your forms
+
+When inbuild_jquery option is set, jQuery is inbound
 
 an example you find in L<ex/qaptcha.pl>
 
