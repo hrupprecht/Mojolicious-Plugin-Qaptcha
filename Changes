@@ -1,5 +1,7 @@
 Revision history for Mojolicious-Plugin-Qaptcha
 
+0.07    2014-01-29
+        set key to '' on deletion instead of undef (less warnings)
 0.06    2014-01-27
         more tests, fixed bug in after_dispatch and
         configured url

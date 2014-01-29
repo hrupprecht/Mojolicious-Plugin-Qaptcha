@@ -5,7 +5,7 @@ use FindBin qw'$Bin';
 use Mojo::Util 'slurp';
 use File::Basename 'dirname';
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 sub register {
   my ($self, $app, $config) = @_;
@@ -53,7 +53,7 @@ sub register {
   );
   $app->hook(after_dispatch => sub {
     my $c = shift;
-    $c->session('qaptcha_key', undef)
+    $c->session('qaptcha_key', '')
       if $c->req->url->path->to_string ne $app->config->{qaptcha_url};
   });
 }
@@ -114,6 +114,7 @@ EOS
 sub _is_unlocked {
   my $self = shift;
   if($self->session('qaptcha_key')){
+    no warnings 'uninitialized';
     if($self->req->param($self->session('qaptcha_key')) eq ''){
       return 1;
     }

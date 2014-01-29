@@ -78,3 +78,5 @@
 .perltidyrc
 .gitignore
 
+^Mojolicious-Plugin-Qaptcha-
+
