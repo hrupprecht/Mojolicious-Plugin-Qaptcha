@@ -13,6 +13,11 @@
       "version" : "2"
    },
    "name" : "Mojolicious-Plugin-Qaptcha",
+   "no_index" : {
+      "file" : [
+         "README.pod"
+      ]
+   },
    "prereqs" : {
       "build" : {
          "requires" : {
@@ -26,6 +31,7 @@
       },
       "runtime" : {
          "requires" : {
+            "File::ShareDir" : "1.00",
             "Mojolicious" : "4"
          }
       }
@@ -33,14 +39,20 @@
    "provides" : {
       "Mojolicious::Plugin::Qaptcha" : {
          "file" : "lib/Mojolicious/Plugin/Qaptcha.pm",
-         "version" : "0.07"
+         "version" : "0.08"
       }
    },
    "release_status" : "stable",
    "resources" : {
+      "bugtracker" : {
+         "web" : "http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/issues"
+      },
       "license" : [
          "http://www.perlfoundation.org/artistic_license_2_0"
-      ]
+      ],
+      "repository" : {
+         "url" : "http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha"
+      }
    },
-   "version" : "0.07"
+   "version" : "0.08"
 }

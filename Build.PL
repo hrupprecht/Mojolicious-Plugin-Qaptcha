@@ -18,6 +18,17 @@ my $builder = Module::Build->new(
     requires => {
         'Mojolicious'   => 4.0,
     },
+    share_dir => 'jquery',
+    meta_merge => {
+      resources => {
+        repository => "http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha",
+        bugtracker => "http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/issues",
+      },
+      no_index => {
+        file => [ 'README.pod' ],
+      },
+    },
+
     add_to_cleanup     => [ 'Mojolicious-Plugin-Qaptcha-*' ],
     create_makefile_pl => 'traditional',
 );

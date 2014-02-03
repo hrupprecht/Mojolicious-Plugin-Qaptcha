@@ -5,7 +5,7 @@ use FindBin qw'$Bin';
 use Mojo::Util 'slurp';
 use File::Basename 'dirname';
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 sub register {
   my ($self, $app, $config) = @_;
@@ -45,7 +45,7 @@ sub register {
       my $self = shift;
       $self->render(
         data => slurp(
-          &_basedir . "/images/bg_draggable_qaptcha.jpg"
+          &_basedir . "/bg_draggable_qaptcha.jpg"
         ),
         format => 'jpg'
       );
@@ -66,18 +66,18 @@ sub _qaptcha_include {
 
   my $jquery
     = $cfg->{inbuild_jquery} && $cfg->{inbuild_jquery}  == 1
-    ? slurp(&_basedir . "/jquery/jquery.js")
+    ? slurp(&_basedir . "/jquery.js")
     : '';
   my $jquery_ui
     = $cfg->{inbuild_jquery_ui} && $cfg->{inbuild_jquery_ui} == 1
-    ? slurp(&_basedir . "/jquery/jquery-ui.js")
+    ? slurp(&_basedir . "/jquery-ui.js")
     : '';
   my $jquery_ui_touch
     = $cfg->{inbuild_jquery_ui_touch} && $cfg->{inbuild_jquery_ui_touch} == 1
-    ? slurp(&_basedir . "/jquery/jquery.ui.touch.js")
+    ? slurp(&_basedir . "/jquery.ui.touch.js")
     : '';
-  my $qaptcha_js = slurp(&_basedir . "/jquery/QapTcha.jquery.js");
-  my $qaptcha_css     = slurp( &_basedir . "/jquery/QapTcha.jquery.css");
+  my $qaptcha_js = slurp(&_basedir . "/QapTcha.jquery.js");
+  my $qaptcha_css     = slurp( &_basedir . "/QapTcha.jquery.css");
 
   $cfg->{txtLock}         ||= q|Locked : form can't be submited|;
   $cfg->{txtUnlock}       ||= q|Unlocked : form can be submited|;
@@ -123,7 +123,9 @@ sub _is_unlocked {
 }
 
 sub _basedir {
-  return dirname(__FILE__) . "/../../.."
+  return $ENV{HARNESS_ACTIVE}
+  ? dirname(__FILE__) . "/../../../jquery"
+  : File::Spec->catdir( File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha'));
 }
 
 =head1 NAME
