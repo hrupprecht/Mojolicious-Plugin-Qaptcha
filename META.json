@@ -39,7 +39,7 @@
    "provides" : {
       "Mojolicious::Plugin::Qaptcha" : {
          "file" : "lib/Mojolicious/Plugin/Qaptcha.pm",
-         "version" : "0.08"
+         "version" : "0.09"
       }
    },
    "release_status" : "stable",
@@ -54,5 +54,5 @@
          "url" : "http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha"
       }
    },
-   "version" : "0.08"
+   "version" : "0.09"
 }

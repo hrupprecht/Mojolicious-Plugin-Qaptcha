@@ -4,29 +4,30 @@ use Mojo::Base 'Mojolicious::Plugin';
 use FindBin qw'$Bin';
 use Mojo::Util 'slurp';
 use File::Basename 'dirname';
+use File::Spec;
+use File::ShareDir;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 sub register {
   my ($self, $app, $config) = @_;
   $app->config->{$_} = $config->{$_} for keys %$config;
 
-  $app->config->{qaptcha_url}       ||= q|/qaptcha|;
+  $app->config->{qaptcha_url} ||= q|/qaptcha|;
 
-  $app->helper(qaptcha_include      => \&_qaptcha_include);
-  $app->helper(qaptcha_is_unlocked  => \&_is_unlocked);
+  $app->helper(qaptcha_include     => \&_qaptcha_include);
+  $app->helper(qaptcha_is_unlocked => \&_is_unlocked);
 
   my $r = $app->routes;
   $r->route($app->config->{qaptcha_url})->to(
     cb => sub {
-      my $self = shift;
+      my $self      = shift;
       my $aResponse = {};
       $aResponse->{error} = 0;
 
-      if ($self->param('action') && $self->param('qaptcha_key'))
-      {
+      if ($self->param('action') && $self->param('qaptcha_key')) {
         $self->session('qaptcha_key', undef);
-        if($self->param('action') eq 'qaptcha'){
+        if ($self->param('action') eq 'qaptcha') {
           $self->session('qaptcha_key', $self->param('qaptcha_key'));
         }
         else {
@@ -44,18 +45,18 @@ sub register {
     cb => sub {
       my $self = shift;
       $self->render(
-        data => slurp(
-          &_basedir . "/bg_draggable_qaptcha.jpg"
-        ),
+        data   => slurp(&_basedir . "/bg_draggable_qaptcha.jpg"),
         format => 'jpg'
       );
     }
   );
-  $app->hook(after_dispatch => sub {
-    my $c = shift;
-    $c->session('qaptcha_key', '')
-      if $c->req->url->path->to_string ne $app->config->{qaptcha_url};
-  });
+  $app->hook(
+    after_dispatch => sub {
+      my $c = shift;
+      $c->session('qaptcha_key', '')
+        if $c->req->url->path->to_string ne $app->config->{qaptcha_url};
+    }
+  );
 }
 
 sub _qaptcha_include {
@@ -64,10 +65,8 @@ sub _qaptcha_include {
 
   my $cfg = $c->app->config;
 
-  my $jquery
-    = $cfg->{inbuild_jquery} && $cfg->{inbuild_jquery}  == 1
-    ? slurp(&_basedir . "/jquery.js")
-    : '';
+  my $jquery = $cfg->{inbuild_jquery}
+    && $cfg->{inbuild_jquery} == 1 ? slurp(&_basedir . "/jquery.js") : '';
   my $jquery_ui
     = $cfg->{inbuild_jquery_ui} && $cfg->{inbuild_jquery_ui} == 1
     ? slurp(&_basedir . "/jquery-ui.js")
@@ -76,14 +75,14 @@ sub _qaptcha_include {
     = $cfg->{inbuild_jquery_ui_touch} && $cfg->{inbuild_jquery_ui_touch} == 1
     ? slurp(&_basedir . "/jquery.ui.touch.js")
     : '';
-  my $qaptcha_js = slurp(&_basedir . "/QapTcha.jquery.js");
-  my $qaptcha_css     = slurp( &_basedir . "/QapTcha.jquery.css");
+  my $qaptcha_js  = slurp(&_basedir . "/QapTcha.jquery.js");
+  my $qaptcha_css = slurp(&_basedir . "/QapTcha.jquery.css");
 
-  $cfg->{txtLock}         ||= q|Locked : form can't be submited|;
-  $cfg->{txtUnlock}       ||= q|Unlocked : form can be submited|;
-  $cfg->{disabledSubmit}  ||= q|false|;
-  $cfg->{autoRevert}      ||= q|true|;
-  $cfg->{autoSubmit}      ||= q|false|;
+  $cfg->{txtLock}        ||= q|Locked : form can't be submited|;
+  $cfg->{txtUnlock}      ||= q|Unlocked : form can be submited|;
+  $cfg->{disabledSubmit} ||= q|false|;
+  $cfg->{autoRevert}     ||= q|true|;
+  $cfg->{autoSubmit}     ||= q|false|;
 
   require Mojo::DOM;
   my $script = <<EOS;
@@ -113,9 +112,9 @@ EOS
 
 sub _is_unlocked {
   my $self = shift;
-  if($self->session('qaptcha_key')){
+  if ($self->session('qaptcha_key')) {
     no warnings 'uninitialized';
-    if($self->req->param($self->session('qaptcha_key')) eq ''){
+    if ($self->req->param($self->session('qaptcha_key')) eq '') {
       return 1;
     }
   }
@@ -123,9 +122,11 @@ sub _is_unlocked {
 }
 
 sub _basedir {
-  return $ENV{HARNESS_ACTIVE}
-  ? dirname(__FILE__) . "/../../../jquery"
-  : File::Spec->catdir( File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha'));
+  my $dir
+    = File::Spec->catdir(
+    File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha'))
+    // dirname(__FILE__) . "/../../../jquery";
+  return $dir;
 }
 
 =head1 NAME
@@ -336,4 +337,5 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
+
 1;

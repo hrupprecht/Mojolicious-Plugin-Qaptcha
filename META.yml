@@ -19,7 +19,7 @@ no_index:
 provides:
   Mojolicious::Plugin::Qaptcha:
     file: lib/Mojolicious/Plugin/Qaptcha.pm
-    version: 0.08
+    version: 0.09
 requires:
   File::ShareDir: 1.00
   Mojolicious: 4
@@ -27,4 +27,4 @@ resources:
   bugtracker: http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/issues
   license: http://www.perlfoundation.org/artistic_license_2_0
   repository: http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha
-version: 0.08
+version: 0.09
