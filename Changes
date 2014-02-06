@@ -1,5 +1,8 @@
 Revision history for Mojolicious-Plugin-Qaptcha
 
+0.09    2014-02-06
+        removed HARNESS_ACTIVE in _basedir (insecure 
+        when testing apps where qaptcha is used)
 0.08    2014-01-29
         fixed bug in directory handling
         missing share_dir in Build.PL
