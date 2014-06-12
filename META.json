@@ -4,7 +4,7 @@
       "Holger Rupprecht <holger.rupprecht@gmx.de>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4204",
+   "generated_by" : "Module::Build version 0.4205",
    "license" : [
       "artistic_2"
    ],
@@ -21,6 +21,7 @@
    "prereqs" : {
       "build" : {
          "requires" : {
+            "Module::Build" : "0.4205",
             "Test::More" : "0"
          }
       },
@@ -32,14 +33,14 @@
       "runtime" : {
          "requires" : {
             "File::ShareDir" : "1.00",
-            "Mojolicious" : "4"
+            "Mojolicious" : "5"
          }
       }
    },
    "provides" : {
       "Mojolicious::Plugin::Qaptcha" : {
          "file" : "lib/Mojolicious/Plugin/Qaptcha.pm",
-         "version" : "0.09"
+         "version" : "0.10"
       }
    },
    "release_status" : "stable",
@@ -48,11 +49,11 @@
          "web" : "http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/issues"
       },
       "license" : [
-         "http://www.perlfoundation.org/artistic_license_2_0"
+         "http://opensource.org/licenses/artistic-license-2.0.php"
       ],
       "repository" : {
          "url" : "http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha"
       }
    },
-   "version" : "0.09"
+   "version" : "0.10"
 }

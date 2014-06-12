@@ -3,15 +3,16 @@ abstract: 'jQuery QapTcha Plugin for Mojolicious'
 author:
   - 'Holger Rupprecht <holger.rupprecht@gmx.de>'
 build_requires:
-  Test::More: 0
+  Module::Build: '0.4205'
+  Test::More: '0'
 configure_requires:
-  Module::Build: 0
+  Module::Build: '0'
 dynamic_config: 1
-generated_by: 'Module::Build version 0.4204, CPAN::Meta::Converter version 2.130880'
+generated_by: 'Module::Build version 0.4205, CPAN::Meta::Converter version 2.141170'
 license: artistic_2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  version: '1.4'
 name: Mojolicious-Plugin-Qaptcha
 no_index:
   file:
@@ -19,12 +20,12 @@ no_index:
 provides:
   Mojolicious::Plugin::Qaptcha:
     file: lib/Mojolicious/Plugin/Qaptcha.pm
-    version: 0.09
+    version: '0.10'
 requires:
-  File::ShareDir: 1.00
-  Mojolicious: 4
+  File::ShareDir: '1.00'
+  Mojolicious: '5'
 resources:
   bugtracker: http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/issues
-  license: http://www.perlfoundation.org/artistic_license_2_0
+  license: http://opensource.org/licenses/artistic-license-2.0.php
   repository: http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha
-version: 0.09
+version: '0.10'

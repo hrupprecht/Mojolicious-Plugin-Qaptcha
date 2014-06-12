@@ -7,7 +7,7 @@ use File::Basename 'dirname';
 use File::Spec;
 use File::ShareDir;
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 sub register {
   my ($self, $app, $config) = @_;
@@ -105,9 +105,10 @@ $qaptcha_js
 <style>$qaptcha_css</style>
 EOS
   my $dom = Mojo::DOM->new($script);
+  $dom->xml(1);
 
   require Mojo::ByteStream;
-  return Mojo::ByteStream->new($dom->to_xml);
+  return Mojo::ByteStream->new($dom->to_string);
 }
 
 sub _is_unlocked {
@@ -124,8 +125,8 @@ sub _is_unlocked {
 sub _basedir {
   my $dir
     = File::Spec->catdir(
-    File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha'))
-    // dirname(__FILE__) . "/../../../jquery";
+    dirname(__FILE__) . "/../../../jquery" //
+    File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha'));
   return $dir;
 }
 
