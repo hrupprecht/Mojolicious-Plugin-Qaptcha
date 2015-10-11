@@ -39,10 +39,10 @@ __DATA__
 </html>
 
 @@ index.html.ep
-%= layout 'default';
+% layout 'default';
 'Hello Qaptcha!'
 <div id="q_session">
-%= c.session('qaptcha_key');
+<%= $c->session('qaptcha_key') %>
 </div>
 <div id="f_processed">
 %= $form_processing;
