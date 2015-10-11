@@ -7,7 +7,7 @@ use File::Basename 'dirname';
 use File::Spec;
 use File::ShareDir;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 sub register {
   my ($self, $app, $config) = @_;
