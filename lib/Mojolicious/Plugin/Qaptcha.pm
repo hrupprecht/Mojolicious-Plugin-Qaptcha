@@ -19,37 +19,33 @@ sub register {
   $app->helper(qaptcha_is_unlocked => \&_is_unlocked);
 
   my $r = $app->routes;
-  $r->route($app->config->{qaptcha_url})->to(
-    cb => sub {
-      my $self      = shift;
-      my $aResponse = {};
-      $aResponse->{error} = 0;
+  $r->any($app->config->{qaptcha_url} => sub {
+    my $self      = shift;
+    my $aResponse = {};
+    $aResponse->{error} = 0;
 
-      if ($self->param('action') && $self->param('qaptcha_key')) {
-        $self->session('qaptcha_key', undef);
-        if ($self->param('action') eq 'qaptcha') {
-          $self->session('qaptcha_key', $self->param('qaptcha_key'));
-        }
-        else {
-          $aResponse->{error} = 1;
-        }
-        return $self->render(json => $aResponse);
+    if ($self->param('action') && $self->param('qaptcha_key')) {
+      $self->session('qaptcha_key', undef);
+      if ($self->param('action') eq 'qaptcha') {
+        $self->session('qaptcha_key', $self->param('qaptcha_key'));
       }
       else {
         $aResponse->{error} = 1;
-        return $self->render(json => $aResponse);
       }
+      return $self->render(json => $aResponse);
     }
-  );
-  $r->route('/images/bg_draggable_qaptcha.jpg')->to(
-    cb => sub {
-      my $self = shift;
-      $self->render(
-        data   => slurp(&_basedir . "/bg_draggable_qaptcha.jpg"),
-        format => 'jpg'
-      );
+    else {
+      $aResponse->{error} = 1;
+      return $self->render(json => $aResponse);
     }
-  );
+  });
+  $r->get('/images/bg_draggable_qaptcha.jpg' => sub {
+    my $self = shift;
+    $self->render(
+      data   => slurp(&_basedir . "/bg_draggable_qaptcha.jpg"),
+      format => 'jpg'
+    );
+  });
   $app->hook(
     after_dispatch => sub {
       my $c = shift;

@@ -11,7 +11,7 @@ my $builder = Module::Build->new(
   release_status     => 'stable',
   configure_requires => {'Module::Build' => 0,},
   build_requires     => {'Module::Build' => 0.4205, 'Test::More' => 0,},
-  requires   => {'Mojolicious' => 5.0,},
+  requires   => {'Mojolicious' => 10.0,},
   share_dir  => 'jquery',
   meta_merge => {
     resources => {
