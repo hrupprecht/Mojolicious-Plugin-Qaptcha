@@ -18,7 +18,7 @@ sub register {
   $app->helper(qaptcha_is_unlocked => \&_is_unlocked);
 
   my $r = $app->routes;
-  $r->any($app->config->{qaptcha_url} => sub {
+  $r->post($app->config->{qaptcha_url} => sub {
     my $self      = shift;
     my $aResponse = {};
     $aResponse->{error} = 0;

@@ -42,7 +42,7 @@ $t->post_ok('/entsperren' => {DNT => 1} => form => {action => 'qaptcha', qaptcha
   ->status_is(200)
   ->json_is({error => 0});
 
-$t->get_ok('/entsperren')->status_is(404);
+$t->get_ok('/entsperren')->status_is(404, 'GET /entsperren returns 404');
 
   $t->post_ok('/' => {DNT => 1} => form => {firstname => 'hans', lastname => 'test'})
   ->status_is(200)
