@@ -118,10 +118,27 @@ sub _is_unlocked {
 }
 
 sub _basedir {
-  my $root = File::Spec->catdir(dirname(__FILE__), ('..') x 3);
-  $root = File::Spec->catdir($root, '..') if basename($root) eq 'blib';
-  my $dev = File::Spec->catdir($root, 'jquery');
-  return -d $dev ? $dev : File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha');
+  my @parts = File::Spec->splitdir(File::Spec->rel2abs(dirname(__FILE__)));
+
+  for (my $i = 0; $i <= $#parts; $i++) {
+    if ($parts[$i] eq 'blib') { splice @parts, $i--, 1; next }
+    if ($i <= $#parts - 3
+      && $parts[$i] eq 'auto'
+      && $parts[$i + 1] eq 'share'
+      && $parts[$i + 2] eq 'dist')
+    {
+      splice @parts, $i--, 4;
+    }
+  }
+
+  while (@parts) {
+    my $dir    = File::Spec->catdir(@parts);
+    my $jquery = File::Spec->catdir($dir, 'jquery');
+    return $jquery if -d $jquery;
+    pop @parts;
+  }
+
+  return File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha');
 }
 
 =head1 NAME
