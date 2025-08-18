@@ -2,7 +2,7 @@ package Mojolicious::Plugin::Qaptcha;
 
 use Mojo::Base 'Mojolicious::Plugin';
 use FindBin qw'$Bin';
-use Mojo::Util 'slurp';
+use Mojo::File qw(path);
 use File::Basename 'dirname';
 use File::Spec;
 use File::ShareDir;
@@ -42,7 +42,7 @@ sub register {
   $r->get('/images/bg_draggable_qaptcha.jpg' => sub {
     my $self = shift;
     $self->render(
-      data   => slurp(&_basedir . "/bg_draggable_qaptcha.jpg"),
+      data   => path(_basedir() . "/bg_draggable_qaptcha.jpg")->slurp,
       format => 'jpg'
     );
   });
@@ -62,17 +62,17 @@ sub _qaptcha_include {
   my $cfg = $c->app->config;
 
   my $jquery = $cfg->{inbuild_jquery}
-    && $cfg->{inbuild_jquery} == 1 ? slurp(&_basedir . "/jquery.js") : '';
+    && $cfg->{inbuild_jquery} == 1 ? path(_basedir() . "/jquery.js")->slurp : '';
   my $jquery_ui
     = $cfg->{inbuild_jquery_ui} && $cfg->{inbuild_jquery_ui} == 1
-    ? slurp(&_basedir . "/jquery-ui.js")
+    ? path(_basedir() . "/jquery-ui.js")->slurp
     : '';
   my $jquery_ui_touch
     = $cfg->{inbuild_jquery_ui_touch} && $cfg->{inbuild_jquery_ui_touch} == 1
-    ? slurp(&_basedir . "/jquery.ui.touch.js")
+    ? path(_basedir() . "/jquery.ui.touch.js")->slurp
     : '';
-  my $qaptcha_js  = slurp(&_basedir . "/QapTcha.jquery.js");
-  my $qaptcha_css = slurp(&_basedir . "/QapTcha.jquery.css");
+  my $qaptcha_js  = path(_basedir() . "/QapTcha.jquery.js")->slurp;
+  my $qaptcha_css = path(_basedir() . "/QapTcha.jquery.css")->slurp;
 
   $cfg->{txtLock}        ||= q|Locked : form can't be submited|;
   $cfg->{txtUnlock}      ||= q|Unlocked : form can be submited|;
