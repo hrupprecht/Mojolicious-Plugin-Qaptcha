@@ -21,8 +21,8 @@ plugin 'Qaptcha', {
 any '/' => sub {
   my $self = shift;
   $self->stash(
-    form_processing => sprintf("form data %s processed",
-      $self->qaptcha_is_unlocked ? '' : 'not')
+    form_processing => sprintf("form data%s processed",
+      $self->qaptcha_is_unlocked ? '' : ' not')
   );
   $self->render('index');
 };
