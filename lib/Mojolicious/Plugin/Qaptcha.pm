@@ -123,11 +123,8 @@ sub _is_unlocked {
 }
 
 sub _basedir {
-  my $dir
-    = File::Spec->catdir(
-    dirname(__FILE__) . "/../../../jquery" //
-    File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha'));
-  return $dir;
+  my $dev = File::Spec->catdir(dirname(__FILE__), '..', '..', '..', 'jquery');
+  return -d $dev ? $dev : File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha');
 }
 
 =head1 NAME
