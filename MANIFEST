@@ -15,6 +15,7 @@ META.json
 META.yml
 README.pod
 t/00-load.t
+t/basedir.t
 t/basic.t
 t/configurable.t
 t/manifest.t
