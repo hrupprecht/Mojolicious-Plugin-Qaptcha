@@ -19,7 +19,7 @@ sub register {
   $app->helper(qaptcha_is_unlocked => \&_is_unlocked);
 
   my $r = $app->routes;
-  $r->post($app->config->{qaptcha_url} => sub {
+  $r->any($app->config->{qaptcha_url} => sub {
     my $self      = shift;
     my $aResponse = {};
     $aResponse->{error} = 0;
@@ -119,11 +119,8 @@ sub _is_unlocked {
 }
 
 sub _basedir {
-  my $dir
-    = File::Spec->catdir(
-    dirname(__FILE__) . "/../../../jquery" //
-    File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha'));
-  return $dir;
+  my $dev = File::Spec->catdir(dirname(__FILE__), '..', '..', '..', 'jquery');
+  return -d $dev ? $dev : File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha');
 }
 
 =head1 NAME
