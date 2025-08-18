@@ -2,7 +2,7 @@ package Mojolicious::Plugin::Qaptcha;
 
 use Mojo::Base 'Mojolicious::Plugin';
 use Mojo::File qw(path);
-use File::Basename 'dirname';
+use File::Basename qw(dirname basename);
 use File::Spec;
 use File::ShareDir;
 
@@ -118,7 +118,9 @@ sub _is_unlocked {
 }
 
 sub _basedir {
-  my $dev = File::Spec->catdir(dirname(__FILE__), '..', '..', '..', 'jquery');
+  my $root = File::Spec->catdir(dirname(__FILE__), ('..') x 3);
+  $root = File::Spec->catdir($root, '..') if basename($root) eq 'blib';
+  my $dev = File::Spec->catdir($root, 'jquery');
   return -d $dev ? $dev : File::ShareDir::dist_dir('Mojolicious-Plugin-Qaptcha');
 }
 
