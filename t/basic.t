@@ -17,7 +17,7 @@ $t->get_ok('/')->status_is(200)
 $t->get_ok('/images/bg_draggable_qaptcha.jpg')->status_is(200)
   ->content_type_is('image/jpeg');
 
-$t->get_ok('/qaptcha')->status_is(404);
+$t->get_ok('/qaptcha')->status_is(404, 'GET /qaptcha returns 404');
 
 $t->post_ok('/' => {DNT => 1} => form => {firstname => 'hans', lastname => 'test'})
   ->status_is(200)
