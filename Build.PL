@@ -10,7 +10,7 @@ my $builder = Module::Build->new(
   dist_version_from  => 'lib/Mojolicious/Plugin/Qaptcha.pm',
   release_status     => 'stable',
   configure_requires => {'Module::Build' => 0,},
-  build_requires     => {'Module::Build' => 0.4205, 'Test::More' => 0,},
+  build_requires     => {'Module::Build' => 0.4205, 'Test::More' => 0, 'Test::Mojo' => 0,},
   requires   => {'Mojolicious' => 5.0, 'File::ShareDir' => '1.00',},
   share_dir  => 'jquery',
   meta_merge => {
