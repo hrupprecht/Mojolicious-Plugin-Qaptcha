@@ -23,7 +23,8 @@ any '/' => sub {
   $self->render('index');
 };
 
-app->start();
+app->start unless caller;
+1;
 
 __DATA__
 
