@@ -1,7 +1,6 @@
 package Mojolicious::Plugin::Qaptcha;
 
 use Mojo::Base 'Mojolicious::Plugin';
-use FindBin qw'$Bin';
 use Mojo::File qw(path);
 use File::Basename 'dirname';
 use File::Spec;
