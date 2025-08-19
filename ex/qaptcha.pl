@@ -24,6 +24,7 @@ any '/' => sub {
 };
 
 app->start unless caller;
+return app if caller;
 1;
 
 __DATA__
