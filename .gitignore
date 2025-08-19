@@ -1,3 +1,116 @@
 **.bak
 Mojolicious-Plugin-Qaptcha-*
 Makefile.PL
+# Bytecode and compiled files
+*.pmc
+*.bs
+*.so
+*.dll
+*.dylib
+*.bundle
+*.o
+*.obj
+*.a
+*.lib
+
+# Core dumps
+core
+core.*
+
+# Test output
+test-output/
+
+# MakeMaker / ExtUtils
+blib/
+_build/
+Makefile
+Makefile.old
+Build
+Build.bat
+Build.COM
+Build.sh
+Build.PL
+Build.pm
+MANIFEST.bak
+MYMETA.*
+pm_to_blib
+
+# Module::Build
+*.bak
+
+# Dist::Zilla
+/.build/
+.try/
+.coverage/
+
+# CPAN::Reporter
+cpan_report.txt
+
+# CPAN-related
+/.cpan/
+.cpanm/
+cpanfile.snapshot
+
+# Perlbrew
+perl5/
+local/
+.perl-version
+.perlbrew/
+
+# Carton
+.local/
+
+# Dist::Zilla & friends
+*.swp
+*~
+# useful if editing with Vim/Emacs
+
+# Devel::Cover
+cover_db/
+
+# Devel::NYTProf
+nytprof.out
+
+# FatPacker
+fatlib/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.old
+
+# Vim / Emacs / IDEs
+*.swo
+*.swp
+*.swn
+*~
+.project
+.idea/
+.vscode/
+.DS_Store
+
+# Test coverage / author tools
+pod2htm*
+*.t.html
+*.html
+
+# Meta files
+META.*
+*.tar.gz
+*.zip
+
+# Git hooks or temp files
+/hooks/*
+*.orig
+
+# Your app-specific files (optional)
+sessions/
+tmp/
+logs/
+
+# Ignore Perl installation if checked into project (rare)
+bin/
+
