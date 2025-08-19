@@ -1,7 +1,8 @@
 use Test::More;
 use Test::Mojo;
 
-require 'ex/qaptcha.pl';
+use FindBin;
+require "$FindBin::Bin/../ex/qaptcha.pl";
 
 my $t = Test::Mojo->new;
 $t->get_ok('/inline')->status_is(200)
