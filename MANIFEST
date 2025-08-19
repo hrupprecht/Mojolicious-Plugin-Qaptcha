@@ -1,4 +1,5 @@
 Build.PL
+CHANGELOG.md
 Changes
 ex/qaptcha.pl
 jquery/bg_draggable_qaptcha.jpg

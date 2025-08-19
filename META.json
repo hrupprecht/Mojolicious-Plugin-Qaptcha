@@ -4,13 +4,13 @@
       "Holger Rupprecht <holger.rupprecht@gmx.de>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4211",
+   "generated_by" : "Module::Build version 0.4234",
    "license" : [
       "artistic_2"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
-      "version" : "2"
+      "version" : 2
    },
    "name" : "Mojolicious-Plugin-Qaptcha",
    "no_index" : {
@@ -22,6 +22,7 @@
       "build" : {
          "requires" : {
             "Module::Build" : "0.4205",
+            "Test::Mojo" : "0",
             "Test::More" : "0"
          }
       },
@@ -40,7 +41,7 @@
    "provides" : {
       "Mojolicious::Plugin::Qaptcha" : {
          "file" : "lib/Mojolicious/Plugin/Qaptcha.pm",
-         "version" : "0.11"
+         "version" : "v0.2.1"
       }
    },
    "release_status" : "stable",
@@ -49,12 +50,12 @@
          "web" : "http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha/issues"
       },
       "license" : [
-         "http://www.perlfoundation.org/artistic_license_2_0"
+         "http://opensource.org/licenses/artistic-license-2.0.php"
       ],
       "repository" : {
          "url" : "http://github.com/hrupprecht/Mojolicious-Plugin-Qaptcha"
       }
    },
-   "version" : "0.11",
-   "x_serialization_backend" : "JSON::PP version 2.27203"
+   "version" : "v0.2.1",
+   "x_serialization_backend" : "JSON::PP version 4.07"
 }

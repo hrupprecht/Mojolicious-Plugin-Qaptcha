@@ -3,11 +3,15 @@ use strict;
 use warnings FATAL => 'all';
 use Module::Build;
 
+my $version = `git describe --tags --abbrev=0`;
+chomp($version);
+$version =~ s/^v//;  # strip leading 'v' if using 'v1.2.3' format
+
 my $builder = Module::Build->new(
   module_name        => 'Mojolicious::Plugin::Qaptcha',
   license            => 'artistic_2',
   dist_author        => q{Holger Rupprecht <holger.rupprecht@gmx.de>},
-  dist_version_from  => 'lib/Mojolicious/Plugin/Qaptcha.pm',
+  dist_version       => $version,
   release_status     => 'stable',
   configure_requires => {'Module::Build' => 0,},
   build_requires     => {'Module::Build' => 0.4205, 'Test::More' => 0, 'Test::Mojo' => 0,},
